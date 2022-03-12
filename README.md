@@ -2,7 +2,7 @@
 
 This is a package for retrieving transcripts from youtube
 
-Developer by Edvinas Adomaitis (c) 2021
+Developed by Edvinas Adomaitis (c) 2021
 
 pypi - https://pypi.org/project/youtube-transcript-downloader/
 ## Instalation
