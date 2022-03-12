@@ -4,6 +4,11 @@ This is a package for retrieving transcripts from youtube
 
 Developer by Edvinas Adomaitis (c) 2021
 
+pypi - https://pypi.org/project/youtube-transcript-downloader/
+## Instalation
+```
+pip install youtube_transcript_downloader
+```
 ## Example of usage
 
 replace placeholder [] with the desired youtube url
