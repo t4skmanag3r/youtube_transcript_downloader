@@ -2,31 +2,43 @@ import unittest
 import sys
 
 sys.path.append("./")
-import yt_transcript_downloader
+from youtube_transcript_downloader.yt_transcript_downloader import (
+    YoutubeTranscriptDownloader,
+    get_transcript,
+)
 
 
-class TestYtTranscriptsDowloader(unittest.TestCase):
+class Test_YoutubeTranscriptDownloader(unittest.TestCase):
     def setUp(self) -> None:
         self.url = "https://www.youtube.com/watch?v=Wo5dMEP_BbI"
+        self.downloader = YoutubeTranscriptDownloader(self.url)
 
     def test__get_serialized_share_entity(self) -> None:
-        param = yt_transcript_downloader._get_serialized_share_entity(self.url)
+        param = self.downloader._get_serialized_share_entity()
         self.assertIsNotNone(param)
 
     def test__get_innertube_api_key(self) -> None:
-        key = yt_transcript_downloader._get_innertube_api_key(self.url)
+        key = self.downloader._get_innertube_api_key()
         self.assertIsNotNone(key)
 
     def test_get_transcipt_wdata(self) -> None:
-        param = yt_transcript_downloader._get_serialized_share_entity(self.url)
-        key = yt_transcript_downloader._get_innertube_api_key(self.url)
+        param = self.downloader._get_serialized_share_entity()
+        key = self.downloader._get_innertube_api_key()
         data = None
         if param and key:
-            data = yt_transcript_downloader._get_transcript_json(param, key)
+            data = self.downloader._get_transcript_json(param, key)
         self.assertIsNotNone(data)
 
     def test_get_transcript(self) -> None:
-        self.assertIsNotNone(yt_transcript_downloader.get_transcript(self.url))
+        self.assertIsNotNone(self.downloader.get_transcript())
+
+
+class Test_get_transcript(unittest.TestCase):
+    def setUp(self) -> None:
+        self.url = "https://www.youtube.com/watch?v=Wo5dMEP_BbI"
+
+    def test_get_transcript(self):
+        self.assertIsNotNone(get_transcript(self.url))
 
 
 def main():

@@ -105,8 +105,8 @@ def get_transcript(url):
 
 
 def main():
-    url = "https://www.youtube.com/watch?v=Wo5dMEP_BbI"
-    transcript = get_transcript(url)
+    URL = "https://www.youtube.com/watch?v=Wo5dMEP_BbI"
+    transcript = get_transcript(URL)
     if not transcript:
         return
 
