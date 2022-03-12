@@ -1,1 +1,0 @@
-from youtube_transcript_downloader.yt_transcript_downloader import get_transcript
