@@ -11,11 +11,11 @@ pip install youtube_transcript_downloader
 ```
 ## Example of usage
 
-replace placeholder [] with the desired youtube url
+replace url with the desired youtube url
 ```
 import youtube_transcript_downloader
 
-url = "[your desired url]"
+url = "your desired url"
 transcript = youtube_transcript_downloader.get_transcript(url)
 ```
 the function returns a dictionary of { time : text }
