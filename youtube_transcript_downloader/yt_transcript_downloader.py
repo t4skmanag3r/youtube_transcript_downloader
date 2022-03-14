@@ -4,6 +4,24 @@ import re
 from typing import Dict, Optional, Tuple, Any
 
 
+class MissingTranscriptError(Exception):
+    def __init__(self, key, param) -> None:
+        self.key = key
+        self.param = param
+        self.message = f'key: "{self.key}", param: "{self.param}"'
+        super().__init__(self.message)
+
+
+class MissingKeyError(Exception):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class MissingParamError(Exception):
+    def __init__(self) -> None:
+        super().__init__()
+
+
 class YoutubeTranscriptDownloader:
     def __init__(self, url) -> None:
         self.url = url
@@ -18,7 +36,7 @@ class YoutubeTranscriptDownloader:
 
         search = re.search('"serializedShareEntity":"[A-Za-z0-9%]*"', str(data.content))
         if not search:
-            return None
+            raise MissingKeyError
         param = (
             str(data.content)[search.start() : search.end()].split(":")[1].strip('"')
         )
@@ -34,7 +52,7 @@ class YoutubeTranscriptDownloader:
 
         search = re.search('"innertubeApiKey":"[A-Za-z0-9_]*"', str(data.content))
         if not search:
-            return None
+            raise MissingParamError
         key = str(data.content)[search.start() : search.end()].split(":")[1].strip('"')
         return key
 
@@ -87,14 +105,17 @@ class YoutubeTranscriptDownloader:
         return transcript
 
     def get_transcript(self) -> Optional[Dict[str, str]]:
-        param = self._get_serialized_share_entity()
-        key = self._get_innertube_api_key()
-        if not param or not key:
+        self.param = self._get_serialized_share_entity()
+        self.key = self._get_innertube_api_key()
+        if not self.param or not self.key:
             return None
 
-        transcript_json = self._get_transcript_json(param, key)
+        transcript_json = self._get_transcript_json(self.param, self.key)
         if not transcript_json:
             return None
+
+        if "actions" not in transcript_json.keys():
+            raise MissingTranscriptError(self.key, self.param)
         transcript = self._parse_transcript_json(transcript_json)
         return transcript
 
